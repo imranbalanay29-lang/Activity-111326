@@ -1,0 +1,85 @@
+#include <iostream>
+using namespace std;
+
+int digitSum(int num);
+int digitCount(int num);
+int reverseDigits(int num, int accumulator = 0);
+void isPalindrome(int num);
+
+int main()
+{
+    int num, choice;
+
+    do {
+        cout << "Enter a non-negative integer from 0 to 999999: ";
+        cin >> num;
+    } while (num <= 0 || num >= 999999);
+
+    do {
+        cout << "Enter your choice from the menu:\n"
+             << "1 - Sum of digits\n"
+             << "2 - Count digits\n"
+             << "3 - Reverse digits\n"
+             << "4 - Check palindrome\n"
+             << "0 - Exit\n"
+             << "Choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Sum of digits: " << digitSum(num) << "\n";
+                break;
+            case 2:
+                cout << "Digit count: " << digitCount(num) << "\n";
+                break;
+            case 3:
+                cout << "Reversed digits: " << reverseDigits(num) << "\n";
+                break;
+            case 4:
+                cout << "Palindrome? ";
+                isPalindrome(num);
+                cout << "\n";
+                break;
+            case 0:
+                cout << "Exited the program!\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 0);
+
+    return 0;
+}
+
+int digitSum(int num)
+{
+    if (num == 0) {
+        return 0;
+    }
+    return (num % 10) + digitSum(num / 10);
+}
+
+int digitCount(int num)
+{
+    if (num < 10) {
+        return 1;
+    }
+    return 1 + digitCount(num / 10);
+}
+
+int reverseDigits(int num, int accumulator)
+{
+    if (num == 0) {
+        return accumulator;
+    }
+    return reverseDigits(num / 10, (accumulator * 10) + (num % 10));
+}
+
+void isPalindrome(int num)
+{
+    if (num == reverseDigits(num)) {
+        cout << "Yes";
+    } else {
+        cout << "No";
+    }
+}
