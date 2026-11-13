@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+
+long long fibonacci(int n) {
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+bool readRange(int &n, int lo, int hi) {
+    if (!(cin >> n)) { cin.clear(); cin.ignore(10000, '\n'); return false; }
+    return n >= lo && n <= hi;
+}
+void printSequence(int n) { for (int i = 0; i < n; ++i) { if (i) cout << ' '; cout << fibonacci(i); } cout << '\n'; }
+int countEven(int n) { int count = 0; for (int i = 0; i < n; ++i) if (fibonacci(i) % 2 == 0) ++count; return count; }
+long long sumSequence(int n) { long long total = 0; for (int i = 0; i < n; ++i) total += fibonacci(i); return total; }
+
+int main() {
+    int choice;
+    do {
+        cout << "\n1 - Display first n Fibonacci terms\n2 - Find Fibonacci term at index n\n3 - Count even terms\n4 - Sum first n terms\n0 - Exit\nChoice: ";
+        if (!(cin >> choice)) { cin.clear(); cin.ignore(10000, '\n'); cout << "Invalid menu choice.\n"; continue; }
+        if (choice == 0) break;
+        if (choice < 1 || choice > 4) { cout << "Invalid menu choice.\n"; continue; }
+        int n, lo = choice == 2 ? 0 : 1;
+        cout << (choice == 2 ? "Enter index (0-20): " : "Enter n (1-20): ");
+        if (!readRange(n, lo, 20)) { cout << "Invalid number; retry.\n"; continue; }
+        if (choice == 1) { cout << "Sequence = "; printSequence(n); }
+        else if (choice == 2) cout << "F(" << n << ") = " << fibonacci(n) << '\n';
+        else if (choice == 3) cout << "Even count = " << countEven(n) << '\n';
+        else cout << "Sum = " << sumSequence(n) << '\n';
+    } while (true);
+    return 0;
+}
