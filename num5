@@ -1,0 +1,171 @@
+#include <iostream>
+#include <sstream>
+#include <string>
+
+using namespace std;
+
+// Recursively prints the values 1 through k on one line.
+void printAscendingRow(int k, int value = 1) {
+    if (value > k) { // Base case: all values in the row have been printed.
+        return;
+    }
+
+    if (value > 1) {
+        cout << ' ';
+    }
+    cout << value;
+    printAscendingRow(k, value + 1);
+}
+
+// Prints one row of the descending triangle. The rows get shorter, while
+// the values in each row run from 1 through that row's length.
+void printDescendingRow(int k, int value = 1) {
+    if (value > k) {
+        return;
+    }
+
+    if (value > 1) {
+        cout << ' ';
+    }
+    cout << value;
+    printDescendingRow(k, value + 1);
+}
+
+// Recursively prints n down to 1, followed by GO! at the base case.
+void countdown(int n) {
+    if (n <= 0) {
+        cout << "GO!";
+        return;
+    }
+    
+     cout << n << ' ';
+    countdown(n - 1);
+}
+
+// Recursively prints the multiplication values for one grid row.
+void printGridRow(int row, int col, int n) {
+    if (col > n) {
+        return;
+    }
+
+    if (col > 1) {
+        cout << ' ';
+    }
+    cout << row * col;
+    printGridRow(row, col + 1, n);
+}
+
+void printAscendingTriangle(int n) {
+    for (int row = 1; row <= n; ++row) {
+        printAscendingRow(row);
+        cout << '\n';
+    }
+}
+
+void printDescendingTriangle(int n) {
+    for (int row = n; row >= 1; --row) {
+        printDescendingRow(row);
+        cout << '\n';
+    }
+}
+
+void printMultiplicationGrid(int n) {
+    for (int row = 1; row <= n; ++row) {
+        printGridRow(row, 1, n);
+        cout << '\n';
+    }
+}
+
+// Reads a whole line so entries such as "2abc" are rejected cleanly.
+bool readInteger(const string& prompt, int& number) {
+    string line;
+
+    while (true) {
+        cout << prompt;
+        if (!getline(cin, line)) {
+            return false;
+        }
+
+        istringstream input(line);
+        char extraCharacter;
+        if ((input >> number) && !(input >> extraCharacter)) {
+            return true;
+        }
+
+        cout << "Invalid entry. Please enter a whole number.\n";
+    }
+}
+
+bool readSize(int& n) {
+    while (true) {
+        if (!readInteger("Enter size (1-9): ", n)) {
+            return false;
+        }
+
+        if (n >= 1 && n <= 9) {
+            return true;
+        }
+
+        cout << "Invalid size. Please enter a value from 1 to 9.\n";
+    }
+}
+
+void displayMenu() {
+     cout << "\n=== Machine Problem 05: Recursive Number Pattern Generator ===\n"
+         << "1 - Ascending triangle\n"
+         << "2 - Descending triangle\n"
+         << "3 - Recursive countdown\n"
+         << "4 - Multiplication grid\n"
+         << "0 - Exit\n";
+}
+
+int main() {
+    int option;
+
+    while (true) {
+        displayMenu();
+        if (!readInteger("Choose an option: ", option)) {
+            cout << "\nInput ended. Goodbye!\n";
+            return 0;
+        }
+
+        if (option == 0) {
+            cout << "Goodbye!\n";
+            break;
+        }
+
+        if (option < 1 || option > 4) {
+            cout << "Invalid option. Please choose 0, 1, 2, 3, or 4.\n";
+            continue;
+        }
+
+        int n;
+        if (!readSize(n)) {
+            cout << "\nInput ended. Goodbye!\n";
+            return 0;
+        }
+
+        switch (option) {
+            case 1:
+                cout << "Ascending triangle:\n";
+                printAscendingTriangle(n);
+                break;
+            case 2:
+                cout << "Descending triangle:\n";
+                printDescendingTriangle(n);
+                break;
+            case 3:
+                cout << "Recursive countdown:\n";
+                countdown(n);
+                cout << '\n';
+                break;
+            case 4:
+                cout << "Multiplication grid:\n";
+                printMultiplicationGrid(n);
+                break;
+        }
+    }
+
+    return 0;
+}
+
