@@ -1,0 +1,113 @@
+#include <iostream>
+#include <limits>
+using namespace std;
+
+int gcd(int a, int b);
+long long lcm(int a, int b);
+bool coprime(int a, int b);
+void inputNumbers(int &a, int &b);
+
+int main() {
+    int choice;
+    int a, b;
+
+    do {
+        cout << "\n=== GCD AND LCM CALCULATOR ===\n";
+        cout << "1 - Find GCD\n";
+        cout << "2 - Find LCM\n";
+        cout << "3 - Check Coprime\n";
+        cout << "4 - Show GCD and LCM\n";
+        cout << "0 - Exit\n";
+        cout << "Enter your choice: ";
+
+        if (!(cin >> choice)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number.\n";
+            continue;
+        }
+
+        switch (choice) {
+            case 1:
+                inputNumbers(a, b);
+                cout << "GCD: " << gcd(a, b) << endl;
+                break;
+
+            case 2:
+                inputNumbers(a, b);
+                cout << "LCM: " << lcm(a, b) << endl;
+                break;
+
+            case 3:
+                inputNumbers(a, b);
+
+                if (coprime(a, b)) {
+                    cout << "The numbers are coprime.\n";
+                } else {
+                    cout << "The numbers are not coprime.\n";
+                }
+                break;
+
+            case 4:
+                inputNumbers(a, b);
+                cout << "GCD: " << gcd(a, b) << endl;
+                cout << "LCM: " << lcm(a, b) << endl;
+                break;
+
+            case 0:
+                cout << "Program ended.\n";
+                break;
+
+            default:
+                cout << "Invalid choice. Please select from 0 to 4.\n";
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
+
+int gcd(int a, int b) {
+    if (b == 0) {
+        return a;
+    }
+
+    return gcd(b, a % b);
+}
+
+long long lcm(int a, int b) {
+    return static_cast<long long>(a / gcd(a, b)) * b;
+}
+
+bool coprime(int a, int b) {
+    return gcd(a, b) == 1;
+}
+
+void inputNumbers(int &a, int &b) {
+  while (true) {
+        cout << "Enter the first number (1-10000): ";
+
+        if (!(cin >> a)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a whole number.\n";
+            continue;
+        }
+
+        cout << "Enter the second number (1-10000): ";
+
+        if (!(cin >> b)) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a whole number.\n";
+            continue;
+        }
+
+        if (a < 1 || a > 10000 || b < 1 || b > 10000) {
+            cout << "Both numbers must be from 1 to 10000.\n";
+            continue;
+        }
+
+        break;
+    }
+}
